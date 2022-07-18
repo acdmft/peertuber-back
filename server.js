@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 5000;
+// CORS 
+const cors = require("cors");
+const allowed_url = process.env.ALLOWED_URL;
 
 //mongoDB
 const MONGO_URI = process.env.MONGO_URI;
@@ -14,6 +17,12 @@ mongoose.connect(MONGO_URI, {
 
 // MIDDLEWARES
 app.use(express.json());
+app.use(
+  cors({
+    origin: allowed_url,
+    credentials: true,
+  })
+);
 
 // ROUTERS 
 const loginRouter = require("./routers/loginRouter");
