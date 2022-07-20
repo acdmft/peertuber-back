@@ -4,11 +4,30 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SERVER_CODE;
 const cookieParser = require("cookie-parser");
-
-// USER model 
+// USER MODEL 
 const User = require("../models/User");
+// EXPRESS VALIDATOR
+const { check, validationResult } = require("express-validator");
 
-router.post("/", async (req, res) => {
+// POST /SIGNUP 
+router.post("/", [
+  check('name').isLength({min: 2 }),
+  check('email').isEmail(),
+  check('password').isLength({
+    min: 6
+  })
+], async (req, res) => {
+  // check if request body is valid with express-validator
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ message: errors.array() });
+  };
+  // check if email is unique
+  const emailIsNotUnique = await User.findOne({email: req.body.email});
+  if (emailIsNotUnique) {
+    return res.status(400).json({ message: "Such email already exist" });
+  };
+  // hash password
   const hashedPassword = await bcrypt.hash(req.body.password, 12);
   let user;
   try {

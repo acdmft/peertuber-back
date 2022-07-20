@@ -5,8 +5,19 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.SERVER_CODE;
 // USER MODEL 
 const User = require("../models/User");
+// EXPRESS VALIDATOR 
+const { check, validationResult } = require("express-validator");
 
-router.post("/", async (req, res) => {
+// POST /LOGIN
+router.post("/", [
+  check('email').isEmail(),
+  check('password').isLength({ min: 6 }),
+], async (req, res) => {
+  // validate request body with express-validator
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ message: errors.array() });
+  }
   const { email, password } = req.body;
   // verify that user with such email exist 
   const user = await User.findOne({ email });
