@@ -1,51 +1,60 @@
-// const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLSchema, GraphQLInt, GraphQLFloat } = require('graphql');
-const Video = require('../models/Video');
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLList,
+  GraphQLSchema,
+  GraphQLInt,
+} = require("graphql");
+const Video = require("../models/Video");
 
 // TYPES
 const VideoType = new GraphQLObjectType({
-  name: 'Video',
+  name: "Video",
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     url: { type: GraphQLString },
     duration: { type: GraphQLInt },
-    // instance: { 
+    thumbnailImg: { type: GraphQLString },
+    instance: { type: GraphQLString }
+    // instance: {
     //   type: InstanceType,
     //   resolve(parent, args) {
     //     return Instance.findB
     //   } }
-  })
+  }),
 });
 
 const InstanceType = new GraphQLObjectType({
-  name: 'Instance',
+  name: "Instance",
   fields: () => ({
     host: { type: GraphQLString },
     name: { type: GraphQLString },
-  })
+  }),
 });
 
 const CategoryType = new GraphQLObjectType({
-  name: 'Category',
+  name: "Category",
   fields: () => ({
-    title: { type: GraphQLString }
-  })
+    title: { type: GraphQLString },
+  }),
 });
 
-// QUERIES 
+// QUERIES
 const RootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
+  name: "RootQueryType",
   fields: {
     videos: {
       type: new GraphQLList(VideoType),
       resolve(parent, args) {
-        return Video.find().limit(12);
-      }
-    }
-  }
+        // return Video.find().limit(12);
+        return Video.aggregate([ { $sample: { size: 12 } } ]);
+      },
+    },
+  },
 });
 
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
 });
