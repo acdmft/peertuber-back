@@ -6,7 +6,9 @@ const {
   GraphQLSchema,
   GraphQLInt,
 } = require("graphql");
+// MODELS
 const Video = require("../models/Video");
+const Instance = require("../models/Instance");
 
 // TYPES
 const VideoType = new GraphQLObjectType({
@@ -17,7 +19,10 @@ const VideoType = new GraphQLObjectType({
     url: { type: GraphQLString },
     duration: { type: GraphQLInt },
     thumbnailImg: { type: GraphQLString },
-    instance: { type: GraphQLString }
+    instance: { type: InstanceType,
+                resolve(parent, args) {
+                  return Instance.findOne({host: parent.instance})
+                }  }
     // instance: {
     //   type: InstanceType,
     //   resolve(parent, args) {
@@ -49,9 +54,16 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(VideoType),
       resolve(parent, args) {
         // return Video.find().limit(12);
-        return Video.aggregate([ { $sample: { size: 12 } } ]);
+        return Video.aggregate([{ $sample: { size: 12 } }]);
       },
     },
+    instance: {
+      type: InstanceType,
+      args: { host: { type: GraphQLString } },
+      resolve(parent, args) {
+        return Instance.findOne({ host: args.host })
+      }
+    }
   },
 });
 
