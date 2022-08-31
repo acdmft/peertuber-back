@@ -22,12 +22,8 @@ const VideoType = new GraphQLObjectType({
     instance: { type: InstanceType,
                 resolve(parent, args) {
                   return Instance.findOne({host: parent.instance})
-                }  }
-    // instance: {
-    //   type: InstanceType,
-    //   resolve(parent, args) {
-    //     return Instance.findB
-    //   } }
+                }  
+              }    
   }),
 });
 
