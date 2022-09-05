@@ -5,10 +5,13 @@ const {
   GraphQLList,
   GraphQLSchema,
   GraphQLInt,
+  GraphQLNonNull
 } = require("graphql");
 // MODELS
 const Video = require("../models/Video");
 const Instance = require("../models/Instance");
+const User = require("../models/User");
+const Like = require("../models/Like");
 
 // TYPES
 const VideoType = new GraphQLObjectType({
@@ -23,13 +26,37 @@ const VideoType = new GraphQLObjectType({
                 resolve(parent, args) {
                   return Instance.findOne({host: parent.instance})
                 }  
-              }    
+              },
+    likes: { type: GraphQLInt,
+              resolve(parent, args) {
+                return Like.count({videoId: parent.id});
+              }
+    }    
   }),
+});
+
+const LikeType = new GraphQLObjectType({
+  name: "Like",
+  fields: () => ({
+    videoId: {type: GraphQLID,
+    },
+    userId: {type: GraphQLID,
+    }
+  })
+});
+
+const UserType = new GraphQLObjectType({
+  name: "User",
+  fields: () => ({
+    id: { type: GraphQLID },
+    email: { type: GraphQLString },
+  })
 });
 
 const InstanceType = new GraphQLObjectType({
   name: "Instance",
   fields: () => ({
+    
     host: { type: GraphQLString },
     name: { type: GraphQLString },
   }),
@@ -55,7 +82,7 @@ const RootQuery = new GraphQLObjectType({
     },
     instance: {
       type: InstanceType,
-      args: { host: { type: GraphQLString } },
+      args: { host: { type: GraphQLID } },
       resolve(parent, args) {
         return Instance.findOne({ host: args.host })
       }
@@ -63,6 +90,24 @@ const RootQuery = new GraphQLObjectType({
   },
 });
 
+// MUTATIONS 
+const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addLike: {
+      type: LikeType,
+      args: {
+        videoId: { type: GraphQLID },
+        userId: { type: GraphQLID }
+      },
+      resolve(parent, args) {
+        const like = new Like({ videoId: args.videoId, userId: args.userId });
+        return like.save();
+      }
+    }
+  }
+});
 module.exports = new GraphQLSchema({
   query: RootQuery,
+  mutation
 });
