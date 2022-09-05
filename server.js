@@ -8,8 +8,6 @@ const allowed_url = process.env.ALLOWED_URL;
 // GRAPHQL 
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
-// MIDDLEWARES 
-const getCookies = require("./middlewares/graphqlCookies");
 
 //mongoDB
 const MONGO_URI = process.env.MONGO_URI;
@@ -30,7 +28,7 @@ app.use(
   })
 );
 
-app.use("/data", getCookies, graphqlHTTP({
+app.use("/data", graphqlHTTP({
   schema,
   graphiql: true
 }));

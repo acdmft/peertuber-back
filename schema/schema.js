@@ -43,14 +43,6 @@ const LikeType = new GraphQLObjectType({
   })
 });
 
-const UserType = new GraphQLObjectType({
-  name: "User",
-  fields: () => ({
-    id: { type: GraphQLID },
-    email: { type: GraphQLString },
-  })
-});
-
 const InstanceType = new GraphQLObjectType({
   name: "Instance",
   fields: () => ({
@@ -87,24 +79,7 @@ const RootQuery = new GraphQLObjectType({
   },
 });
 
-// MUTATIONS 
-const mutation = new GraphQLObjectType({
-  name: 'Mutation',
-  fields: {
-    addLike: {
-      type: LikeType,
-      args: {
-        videoId: { type: GraphQLID },
-        userId: { type: GraphQLID }
-      },
-      resolve(parent, args) {
-        const like = new Like({ videoId: args.videoId, userId: args.userId });
-        return like.save();
-      }
-    }
-  }
-});
+
 module.exports = new GraphQLSchema({
-  query: RootQuery,
-  mutation
+  query: RootQuery
 });
