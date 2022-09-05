@@ -38,10 +38,8 @@ const VideoType = new GraphQLObjectType({
 const LikeType = new GraphQLObjectType({
   name: "Like",
   fields: () => ({
-    videoId: {type: GraphQLID,
-    },
-    userId: {type: GraphQLID,
-    }
+    videoId: { type: GraphQLID },
+    userId: { type: GraphQLID },
   })
 });
 
@@ -56,7 +54,6 @@ const UserType = new GraphQLObjectType({
 const InstanceType = new GraphQLObjectType({
   name: "Instance",
   fields: () => ({
-    
     host: { type: GraphQLString },
     name: { type: GraphQLString },
   }),

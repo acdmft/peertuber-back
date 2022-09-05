@@ -8,6 +8,8 @@ const allowed_url = process.env.ALLOWED_URL;
 // GRAPHQL 
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
+// MIDDLEWARES 
+const getCookies = require("./middlewares/graphqlCookies");
 
 //mongoDB
 const MONGO_URI = process.env.MONGO_URI;
@@ -28,7 +30,7 @@ app.use(
   })
 );
 
-app.use("/data", graphqlHTTP({
+app.use("/data", getCookies, graphqlHTTP({
   schema,
   graphiql: true
 }));
@@ -38,8 +40,9 @@ const loginRouter = require("./routers/loginRouter");
 const signupRouter = require("./routers/signupRouter");
 
 // ROUTES 
-app.get("/", async (_req, res) => {
-  res.status(200).json({message: "Home page"})
+app.get("/", async (req, res) => {
+  res.status(200).json({message: "Home page"});
+  console.log(req.data)
 });
 app.use("/login", loginRouter); // LOGIN (POST)
 app.use("/signup", signupRouter); // NEW ACCOUNT (POST)
