@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cookieParser = require("cookie-parser");
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 // CORS 
@@ -20,6 +21,7 @@ mongoose.connect(MONGO_URI, {
 
 // MIDDLEWARES
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(
   cors({
@@ -36,14 +38,16 @@ app.use("/data", graphqlHTTP({
 // ROUTERS 
 const loginRouter = require("./routers/loginRouter");
 const signupRouter = require("./routers/signupRouter");
+const likesRouter = require("./routers/likesRouter");
 
 // ROUTES 
 app.get("/", async (req, res) => {
   res.status(200).json({message: "Home page"});
-  console.log(req.data)
 });
+
 app.use("/login", loginRouter); // LOGIN (POST)
 app.use("/signup", signupRouter); // NEW ACCOUNT (POST)
+app.use("/like", likesRouter); // ADD LIKE TO THE VIDEO
 // LOGOUT 
 app.get("/logout", (_req, res) => {
   res.clearCookie("jwt");

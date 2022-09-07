@@ -17,7 +17,7 @@ const Like = require("../models/Like");
 const VideoType = new GraphQLObjectType({
   name: "Video",
   fields: () => ({
-    id: { type: GraphQLID },
+    _id: { type: GraphQLID },
     name: { type: GraphQLString },
     url: { type: GraphQLString },
     duration: { type: GraphQLInt },
