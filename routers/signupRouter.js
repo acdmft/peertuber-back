@@ -3,7 +3,9 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SERVER_CODE;
-const cookieParser = require("cookie-parser");
+// const cookieParser = require("cookie-parser");
+// const mongoose = require("mongoose");
+
 // USER MODEL 
 const User = require("../models/User");
 // EXPRESS VALIDATOR
@@ -32,6 +34,7 @@ router.post("/", [
   let user;
   try {
     user = await User.create({
+      // _id: new mongoose.Types.ObjectId(),
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
