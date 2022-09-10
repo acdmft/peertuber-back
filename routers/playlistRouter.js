@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 // MIDDLEWARE 
 const isLoggedIn = require('../middlewares/isLogged');
-// USER MODEL 
+// MODELS 
 const User = require('../models/User');
+const Playlist = require('../models/Playlist');
 // EXPRESS VALIDATOR
 const { check, validationResult } = require("express-validator");
 
@@ -20,21 +21,43 @@ router.get("/", isLoggedIn, async (req, res) => {
   return res.status(200).json(user.playlists);
 });
 // ADD PLAYLIST
-router.patch("/", [check('title').isLength({min: 2, max: 32})], isLoggedIn, async (req, res)=> {
+router.post("/", [check('title').isLength({min: 2, max: 32})], isLoggedIn, async (req, res)=> {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ message: errors.array() });
   };
   const userId = req.data.userId;
-  const title = req.body.title;
+  const {title, videoId} = req.body;
+  let result;
   try {
-    console.log(title, userId);
-    await User.updateOne({_id: userId}, {$push: { playlists: title }});
+    // use $addToSet instead of $push to keep values in array unique
+    result = await User.updateOne({_id: userId}, {$addToSet: { playlists: title }});
+    if (result) {
+      try {
+        await Playlist.create({userId, videoId, title});
+      } catch (err) {
+        return res.status(400).json({message: err});
+      }
+    } else {
+      return res.status(400).json({message: "Something went wrong!"});
+    }
   } catch (err) {
     return res.status(400).json(err)
   }
   // res.modifiedCount; // Number of documents modified
-  return res.status(200).json(res.acknowledged);
+  return res.status(200).json(result.acknowledged);
 });
+
+// ADD VIDEO TO PLAYLIST 
+router.post("/", isLoggedIn, async (req, res) => {
+  const {plTitle, videoId} = req.body;
+  const userId = req.data.userId; 
+  try {
+    
+  } catch (err) {
+
+  }
+});
+
 
 module.exports = router;
