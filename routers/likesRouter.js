@@ -5,7 +5,7 @@ const Like = require("../models/Like");
 // MIDDLEWARE 
 const isLoggedIn = require('../middlewares/isLogged');
 
-//
+// ADD LIKE
 router.post("/", isLoggedIn, async (req, res) => {
   const {videoId} = req.body;
   const userId = req.data.userId;
@@ -17,7 +17,7 @@ router.post("/", isLoggedIn, async (req, res) => {
   return res.status(201).json({ message: "Like was added!" });
 });
 
-
+// GET LIKED VIDEOS
 router.get("/", isLoggedIn, async (req, res) => {
   const userId = req.data.userId;
   let likedVideos;
