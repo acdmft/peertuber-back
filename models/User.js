@@ -21,7 +21,7 @@ const userSchema = Schema({
     default: false,
   }, 
   playlists: {
-    type: [String]
+    type: [{title: String, num: Number}]
   }
 });
 
