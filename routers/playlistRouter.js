@@ -38,11 +38,15 @@ router.post(
         { _id: userId, "playlists.title": title },
         { $inc: { "playlists.$.num": 1 } }
       );
-      if (!result.nMatched) {
-        await User.updateOne(
-          { _id: userId },
-          { $push: { playlists: { title: title, num: 1 } } }
-        );
+      if (result.modifiedCount === 0) {
+        try {
+          result = await User.updateOne(
+            { _id: userId },
+            { $push: { playlists: { title: title, num: 1 } } }
+          );
+        } catch (err) {
+          return res.status(400).json({ message: err });
+        }
       }
     } catch (err) {
       return res.status(400).json({ message: err });
@@ -56,13 +60,5 @@ router.post(
     return res.status(200).json(result.acknowledged);
   }
 );
-
-// ADD VIDEO TO PLAYLIST
-router.post("/", isLoggedIn, async (req, res) => {
-  const { plTitle, videoId } = req.body;
-  const userId = req.data.userId;
-  try {
-  } catch (err) {}
-});
 
 module.exports = router;
