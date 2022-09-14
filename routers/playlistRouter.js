@@ -30,7 +30,7 @@ router.get("/all", isLoggedIn, async (req, res) => {
   } catch (err) {
     return res.status(400).json({ message: err });
   }
-  return res.status(200).json(videos);
+  return res.status(200).json({videos});
 });
 // ADD PLAYLIST
 router.post(
