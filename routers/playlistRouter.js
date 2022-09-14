@@ -19,6 +19,19 @@ const getPL = async (req, res) => {
   }
   return res.status(200).json(user.playlists);
 };
+// GET VIDEOS FROM ALL PLAYLISTS
+router.get("/all", isLoggedIn, async (req, res) => {
+  const userId = req.data.userId;
+  let videos;
+  try {
+    videos = await Playlist.find({ userId: userId })
+      // .limit(6)
+      .populate("videoId");
+  } catch (err) {
+    return res.status(400).json({ message: err });
+  }
+  return res.status(200).json(videos);
+});
 // ADD PLAYLIST
 router.post(
   "/",
@@ -60,19 +73,18 @@ router.post(
     return res.status(200).json(result.acknowledged);
   }
 );
-// GET VIDEOS IN PLAYLIST 
-router.get("/", isLoggedIn, async (req, res)=>{ 
+// GET VIDEOS IN PLAYLIST
+router.get("/", isLoggedIn, async (req, res) => {
   if (Object.keys(req.query).length !== 0) {
     const userId = req.data.userId;
     const title = req.query.pl;
     let videos;
     try {
-      videos = await Playlist.find({userId, title})
-      .populate('videoId');
-   } catch (err) {
-    return res.status(400).json({message: err});
-   } 
-    return res.status(200).json({videos});
+      videos = await Playlist.find({ userId, title }).populate("videoId");
+    } catch (err) {
+      return res.status(400).json({ message: err });
+    }
+    return res.status(200).json({ videos });
   } else {
     getPL(req, res);
   }
