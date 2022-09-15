@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const reportSchema = Schema({
   videoId: { type: Schema.Types.ObjectId, ref: 'Test_video' },
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
-  kind: { type: String }
+  conType: { type: String }
 });
 
 const Report = mongoose.model('report', reportSchema);

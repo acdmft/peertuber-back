@@ -41,6 +41,8 @@ const signupRouter = require("./routers/signupRouter");
 const likesRouter = require("./routers/likesRouter");
 const scheduledRouter = require("./routers/scheduledRouter");
 const playlistRouter = require("./routers/playlistRouter");
+const reportRouter = require("./routers/reportRouter");
+
 
 // ROUTES 
 app.get("/", async (req, res) => {
@@ -52,6 +54,7 @@ app.use("/signup", signupRouter); // NEW ACCOUNT (POST)
 app.use("/like", likesRouter); // ADD LIKE TO THE VIDEO / GET LIKED VIDEOS
 app.use("/sched", scheduledRouter); // ADD VIDEO TO WATCH LATER / GET WL VIDEOS
 app.use("/playlists", playlistRouter); // GET PLAYLISTS , ADD VIDEO IN PLAYLIST
+app.use("/report", reportRouter); // POST VIDEO REPORT
 // LOGOUT 
 app.get("/logout", (_req, res) => {
   res.clearCookie("jwt");
