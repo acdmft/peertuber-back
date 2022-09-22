@@ -42,7 +42,7 @@ const likesRouter = require("./routers/likesRouter");
 const scheduledRouter = require("./routers/scheduledRouter");
 const playlistRouter = require("./routers/playlistRouter");
 const reportRouter = require("./routers/reportRouter");
-
+const contactRouter = require("./routers/contactRouter");
 
 // ROUTES 
 app.get("/", async (req, res) => {
@@ -55,6 +55,7 @@ app.use("/like", likesRouter); // ADD LIKE TO THE VIDEO / GET LIKED VIDEOS
 app.use("/sched", scheduledRouter); // ADD VIDEO TO WATCH LATER / GET WL VIDEOS
 app.use("/playlists", playlistRouter); // GET PLAYLISTS , ADD VIDEO IN PLAYLIST
 app.use("/report", reportRouter); // POST VIDEO REPORT
+app.use("/msg", contactRouter); // POST MESSAGE FROM CONTACT FORM
 // LOGOUT 
 app.get("/logout", (_req, res) => {
   res.clearCookie("jwt");
