@@ -64,9 +64,14 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     videos: {
       type: new GraphQLList(VideoType),
+      args: { category: { type: GraphQLString }},
       resolve(parent, args) {
-        // return Video.find().limit(12);
-        return Video.aggregate([{ $sample: { size: 12 } }]);
+        if (args['category'] === 'all') {
+          // return Video.find().limit(12);
+          return Video.aggregate([{ $sample: { size: 12 } }]);
+        } else {
+          return Video.aggregate([{ $match: { category: args.category } }, {$sample: { size: 12 } }])
+        }
       },
     },
     instance: {
@@ -74,6 +79,13 @@ const RootQuery = new GraphQLObjectType({
       args: { host: { type: GraphQLID } },
       resolve(parent, args) {
         return Instance.findOne({ host: args.host })
+      }
+    }, 
+    videoCategory: {
+      type: new GraphQLList(VideoType),
+      args: { category: { type: GraphQLString }},
+      resolve(parent, args) {
+        return Video.aggregate([{ $match: { category: args.category } }, {$sample: { size: 12 } }])
       }
     }
   },

@@ -43,11 +43,11 @@ const scheduledRouter = require("./routers/scheduledRouter");
 const playlistRouter = require("./routers/playlistRouter");
 const reportRouter = require("./routers/reportRouter");
 const contactRouter = require("./routers/contactRouter");
+const videoRouter = require("./routers/videosRouter");
 
 // ROUTES 
-app.get("/", async (req, res) => {
-  res.status(200).json({message: "Home page"});
-});
+app.use("/",videoRouter);
+
 
 app.use("/login", loginRouter); // LOGIN (POST)
 app.use("/signup", signupRouter); // NEW ACCOUNT (POST)
