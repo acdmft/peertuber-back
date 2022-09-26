@@ -44,7 +44,6 @@ router.post(
       secure: false,
       expires: new Date(Date.now() + 1000 * 60 * 600),
     });
-    console.log('res.cookie, user.id',token, user.id);
     // send cookie to the client
     res.json({
       message: "Here is your cookie",

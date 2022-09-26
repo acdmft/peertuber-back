@@ -73,7 +73,7 @@ router.post(
     return res.status(200).json(result.acknowledged);
   }
 );
-// GET VIDEOS IN PLAYLIST
+// GET VIDEOS IN A PLAYLIST
 router.get("/", isLoggedIn, async (req, res) => {
   if (Object.keys(req.query).length !== 0) {
     const userId = req.data.userId;

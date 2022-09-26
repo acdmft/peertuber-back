@@ -44,11 +44,10 @@ const playlistRouter = require("./routers/playlistRouter");
 const reportRouter = require("./routers/reportRouter");
 const contactRouter = require("./routers/contactRouter");
 const videoRouter = require("./routers/videosRouter");
+const profileRouter = require("./routers/profileRouter");
 
 // ROUTES 
 app.use("/",videoRouter);
-
-
 app.use("/login", loginRouter); // LOGIN (POST)
 app.use("/signup", signupRouter); // NEW ACCOUNT (POST)
 app.use("/like", likesRouter); // ADD LIKE TO THE VIDEO / GET LIKED VIDEOS
@@ -56,6 +55,7 @@ app.use("/sched", scheduledRouter); // ADD VIDEO TO WATCH LATER / GET WL VIDEOS
 app.use("/playlists", playlistRouter); // GET PLAYLISTS , ADD VIDEO IN PLAYLIST
 app.use("/report", reportRouter); // POST VIDEO REPORT
 app.use("/msg", contactRouter); // POST MESSAGE FROM CONTACT FORM
+app.use("/profile", profileRouter); // GET USER PROFILE
 // LOGOUT 
 app.get("/logout", (_req, res) => {
   res.clearCookie("jwt");

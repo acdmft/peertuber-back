@@ -1,4 +1,5 @@
 const express = require("express");
+const { isRequiredInputField } = require("graphql");
 const router = express.Router();
 // VIDEO MODEL
 const Video = require("../models/Video");
@@ -18,6 +19,17 @@ router.get("/", async (req, res) => {
   // });
   // console.log(arr[0]);
   return res.status(200).json({ message: vidCount });
+});
+
+router.get("/vid", async (req, res) => {
+  let cat = req.query.cat;
+  let cursor = await Video.find({"category": cat, "_id": {"$nin": req.body.videoId}}).count();
+  // let cursor = await Video.find({"category": cat}).count();
+  // console.log(req.body)
+  // cursor.stream().on("data", (data) => console.log(data));
+  // console.log(cursor)
+
+  return res.status(200).json({message: cursor})
 });
 
 module.exports = router;
