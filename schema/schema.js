@@ -10,7 +10,6 @@ const {
 // MODELS
 const Video = require("../models/Video");
 const Instance = require("../models/Instance");
-const User = require("../models/User");
 const Like = require("../models/Like");
 
 // TYPES
@@ -67,7 +66,6 @@ const RootQuery = new GraphQLObjectType({
       args: { category: { type: GraphQLString }},
       resolve(parent, args) {
         if (args['category'] === 'all') {
-          // return Video.find().limit(12);
           return Video.aggregate([{ $sample: { size: 12 } }]);
         } else {
           return Video.aggregate([{ $match: { category: args.category } }, {$sample: { size: 12 } }])
