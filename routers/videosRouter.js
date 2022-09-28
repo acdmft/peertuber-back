@@ -23,11 +23,29 @@ router.get("/", async (req, res) => {
 
 router.get("/vid", async (req, res) => {
   let cat = req.query.cat;
-  let cursor = await Video.find({"category": cat, "_id": {"$nin": req.body.videoId}}).count();
-  // let cursor = await Video.find({"category": cat}).count();
-  // console.log(req.body)
+  // let cursor = await Video.find({"category": cat, "_id": {"$nin": req.body.videoId}}).count();
+  // let cursor = await Video.aggregate([{$match: {category: cat}},
+  //    {$match: {_id: {$nin: req.body.videoId }}}, {
+  //   $sample: {size: 10}
+  // }]);//.count();
+  // let cursor = db.test_videos.find({category: cat});
+  // let cursor = await Video.find({category: cat}).cursor();
+  // console.log(req.body.videoId)
+  // for await (const doc of Video.find({category: cat})) {
+  //   console.log(doc.name);
+  // }
+  // let cursor = await Video.find({category: cat}).cursor().map(function(doc){
+  //   return doc.name;
+  // });
+  let cursor = await Video.find({ _id: {$nin: req.body.videoId}, category: cat }).count();
+  // for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
+  //   console.log(doc); // Prints documents one at a time
+  // }
+  // cursor.next((error, doc)=>{
+  //   console.log(doc)
+  // })
   // cursor.stream().on("data", (data) => console.log(data));
-  // console.log(cursor)
+  // console.log(arr)
 
   return res.status(200).json({message: cursor})
 });
