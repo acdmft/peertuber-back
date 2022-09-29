@@ -43,11 +43,9 @@ const scheduledRouter = require("./routers/scheduledRouter");
 const playlistRouter = require("./routers/playlistRouter");
 const reportRouter = require("./routers/reportRouter");
 const contactRouter = require("./routers/contactRouter");
-const videoRouter = require("./routers/videosRouter");
 const profileRouter = require("./routers/profileRouter");
 
 // ROUTES 
-app.use("/",videoRouter);
 app.use("/login", loginRouter); // LOGIN (POST)
 app.use("/signup", signupRouter); // NEW ACCOUNT (POST)
 app.use("/like", likesRouter); // ADD LIKE TO THE VIDEO / GET LIKED VIDEOS
