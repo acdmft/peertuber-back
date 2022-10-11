@@ -4,7 +4,9 @@
 
 Peertuber is the aggregator of the Peertube instances. It is based on the official API that could be found <a href="https://instances.joinpeertube.org/instances" target="_blank">here.</a> To learn more about Peertube visit  <a href="https://joinpeertube.org" target="_blank">official site.</a>
 
-Current repository contains the code of the backend server of Peertuber. Check the front-end client repository<a href="https://github.com/acdmft/peertuber-front" target="_blank">here.</a> 
+Current repository contains the code of the backend server of Peertuber. Check the front-end client repository<a href="https://github.com/acdmft/peertuber-front" target="_blank"> here.</a> 
+
+Peertuber <a href="peertuber.vercel.app" target="_blank">demo.</a>
 
 ## Dependencies 
 * [Node.js] (https://nodejs.org/)
