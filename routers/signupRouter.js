@@ -43,7 +43,7 @@ router.post("/", [
     return res.status(400).json({ message: err });
   }
   const token = jwt.sign({userId: user.id, isAdmin: user.isAdmin}, secret);
-  res.cookie("jwt", token, { httpOnly: true, secure: false, expires: new Date(Date.now() + 1000 * 60 * 600)});
+  res.cookie("jwt", token, { httpOnly: true, secure: true, expires: new Date(Date.now() + 1000 * 60 * 600)});
   res.status(201).json({ message: "User created" });
 });
 
