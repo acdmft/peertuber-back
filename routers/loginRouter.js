@@ -41,7 +41,7 @@ router.post(
     res.cookie("jwt", token, {
       httpOnly: true,
       sameSite: 'none',
-      secure: false,
+      secure: true,
       expires: new Date(Date.now() + 1000 * 60 * 600),
     });
     // send cookie to the client
