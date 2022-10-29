@@ -26,11 +26,12 @@ const VideoType = new GraphQLObjectType({
                   return Instance.findOne({host: parent.instance})
                 }  
               },
-    likes: { type: GraphQLInt,
-              resolve(parent, args) {
-                return Like.count({videoId: parent.id});
-              }
-    }    
+    likes: { type: GraphQLString }
+    // likes: { type: GraphQLInt,
+    //           resolve(parent, args) {
+    //             return Like.count({videoId: parent.id});
+    //           }
+    // }    
   }),
 });
 

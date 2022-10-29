@@ -12,6 +12,7 @@ const videoSchema = new mongoose.Schema({
   thumbnailImg: { type: String },
   previewImg: { type: String },
   publishedAt: { type: String },
+  likes: { type: Number, default: 0 }
 });
 
 const Video = mongoose.model('Test_video', videoSchema);
