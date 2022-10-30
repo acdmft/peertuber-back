@@ -6,9 +6,6 @@ const port = process.env.PORT || 5000;
 // CORS 
 const cors = require("cors");
 const allowed_url = process.env.ALLOWED_URL;
-// GRAPHQL 
-const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema/schema');
 
 //mongoDB
 const MONGO_URI = process.env.MONGO_URI;
@@ -30,12 +27,9 @@ app.use(
   })
 );
 
-app.use("/data", graphqlHTTP({
-  schema,
-  graphiql: true
-}));
 
 // ROUTERS 
+const videosRouter = require("./routers/videosRouter");
 const loginRouter = require("./routers/loginRouter");
 const signupRouter = require("./routers/signupRouter");
 const likesRouter = require("./routers/likesRouter");
@@ -45,7 +39,9 @@ const reportRouter = require("./routers/reportRouter");
 const contactRouter = require("./routers/contactRouter");
 const profileRouter = require("./routers/profileRouter");
 
+
 // ROUTES 
+app.use("/videos", videosRouter);
 app.use("/login", loginRouter); // LOGIN (POST)
 app.use("/signup", signupRouter); // NEW ACCOUNT (POST)
 app.use("/like", likesRouter); // ADD LIKE TO THE VIDEO / GET LIKED VIDEOS
