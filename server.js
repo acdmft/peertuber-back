@@ -15,7 +15,9 @@ mongoose.connect(MONGO_URI, {
 }).then(()=> {
   console.log("Connected to MongoDB");
 });
-
+app.get('/test', async (_req, res)=>{
+  return res.status(200).json({message: "Hello From /test"});
+});
 // MIDDLEWARES
 app.use(express.json());
 app.use(cookieParser());
