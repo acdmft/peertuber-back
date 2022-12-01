@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const video_collection = process.env.VIDEO_COLL;
+
 const Instance = new mongoose.Schema({
   host: { type: String },
   name: { type: String },
@@ -23,6 +25,6 @@ const videoSchema = new mongoose.Schema({
   likes: { type: Number, default: 0 }
 });
 
-const Video = mongoose.model('new_video', videoSchema);
+const Video = mongoose.model(video_collection, videoSchema);
 
 module.exports = Video;
