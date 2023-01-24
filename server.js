@@ -22,13 +22,21 @@ app.get('/test', async (_req, res)=>{
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: allowed_url,
-    credentials: true,
-  })
-);
-
+// app.use(
+//   cors({
+//     origin: allowed_url,
+//     credentials: true,
+//   })
+// );
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", allowed_url);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+  next();
+});
 
 // ROUTERS 
 const videosRouter = require("./routers/videosRouter");
