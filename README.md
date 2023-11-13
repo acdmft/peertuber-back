@@ -49,6 +49,7 @@ PORT=5000
 MONGO_URI=<mongodb uri>
 SERVER_CODE=<secret code>
 ALLOWED_URL=http://localhost:3000 // client application url
+VIDEO_COLL=<mongodb collection>
 ```
 
 ### Contact me 
