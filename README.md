@@ -52,7 +52,7 @@ ALLOWED_URL=http://localhost:3000 // client application url
 VIDEO_COLL=<mongodb collection>
 ```
 
-### Contact me 
+ 
 
-<h3> Contact me</h3>
-Linked In : https://www.linkedin.com/in/andrei-zheksim/
+<h3>Linked In :</h3>
+<p>https://www.linkedin.com/in/andrei-zheksim/</p>
